@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  postgres:
+    image: 'postgres'
+    container_name: 'task_postgres'
+    ports:
+      - 5432:5432
+    environment:
+      - 'POSTGRES_USER=postgres'
+      - 'POSTGRES_PASSWORD=0000'
+      - 'POSTGRES_DB=task-management'
+      - 'PGDATA:$HOME/docker/task-management/postgres'
