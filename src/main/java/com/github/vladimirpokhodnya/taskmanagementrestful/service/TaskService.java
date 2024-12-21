@@ -33,7 +33,7 @@ public class TaskService {
     public Optional<TaskDTO> updateTask(Long id, TaskDTO taskDTO) {
         return taskRepository.findById(id)
                 .map(task -> {
-                    task.setUserId(id);
+//                    task.setUserId(id);
                     task.setTitle(taskDTO.getTitle());
                     task.setDescription(taskDTO.getDescription());
                     task.setUserId(taskDTO.getUserId());
@@ -42,9 +42,14 @@ public class TaskService {
                 });
     }
 
-    public void deleteTask(Long id) {
+    public boolean deleteTask(Long id) {
+        if (!taskRepository.existsById(id)) {
+            return false;
+        }
         taskRepository.deleteById(id);
+        return true;
     }
+
 
     public List<TaskDTO> getAllTasks() {
         return taskRepository.findAll().stream()
