@@ -5,6 +5,7 @@ import com.github.vladimirpokhodnya.taskmanagementrestful.model.TaskStatus;
 import com.github.vladimirpokhodnya.taskmanagementrestful.model.dto.TaskDTO;
 import com.github.vladimirpokhodnya.taskmanagementrestful.repository.TaskRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -32,6 +33,7 @@ class TaskServiceTest {
     }
 
     @Test
+    @DisplayName("Создание задачи")
     void createTask_shouldReturnTaskDTO_whenTaskIsCreated() {
         TaskDTO taskDTO = new TaskDTO();
         taskDTO.setTitle("Test Task");
@@ -56,6 +58,7 @@ class TaskServiceTest {
     }
 
     @Test
+    @DisplayName("Поиск задачи по id")
     void getTaskById_shouldReturnTaskDTO_whenTaskExists() {
         Long taskId = 1L;
         Task task = new Task();
@@ -74,6 +77,7 @@ class TaskServiceTest {
     }
 
     @Test
+    @DisplayName("Не успешный поиск задачи по id")
     void getTaskById_shouldReturnEmpty_whenTaskDoesNotExist() {
         Long taskId = 1L;
 
@@ -85,6 +89,7 @@ class TaskServiceTest {
     }
 
     @Test
+    @DisplayName("Обновление задачи")
     void updateTask_shouldReturnUpdatedTaskDTO_whenTaskExists() {
         Long taskId = 1L;
         Task existingTask = new Task();
@@ -111,6 +116,7 @@ class TaskServiceTest {
     }
 
     @Test
+    @DisplayName("Не найдена задача для обновления")
     void updateTask_shouldReturnEmpty_whenTaskDoesNotExist() {
         Long taskId = 1L;
         TaskDTO taskDTO = new TaskDTO();
@@ -122,6 +128,7 @@ class TaskServiceTest {
     }
 
     @Test
+    @DisplayName("Удаление задачи")
     void deleteTask_shouldCallRepositoryDelete_whenTaskExists() {
         Long taskId = 1L;
 
@@ -131,6 +138,7 @@ class TaskServiceTest {
     }
 
     @Test
+    @DisplayName("Поиск всех задач")
     void getAllTasks_shouldReturnListOfTaskDTOs() {
         Task task = new Task();
         task.setId(1L);
@@ -148,6 +156,7 @@ class TaskServiceTest {
     }
 
     @Test
+    @DisplayName("Обновление статуса задачи")
     void updateStatus_shouldReturnUpdatedTaskDTO_whenTaskExists() {
         Long taskId = 1L;
         Task task = new Task();
@@ -164,6 +173,7 @@ class TaskServiceTest {
     }
 
     @Test
+    @DisplayName("Не найдена задача для обновления статуса")
     void updateStatus_shouldReturnEmpty_whenTaskDoesNotExist() {
         Long taskId = 1L;
 
