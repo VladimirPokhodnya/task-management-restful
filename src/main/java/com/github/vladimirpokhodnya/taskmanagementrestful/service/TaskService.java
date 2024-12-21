@@ -33,7 +33,6 @@ public class TaskService {
     public Optional<TaskDTO> updateTask(Long id, TaskDTO taskDTO) {
         return taskRepository.findById(id)
                 .map(task -> {
-//                    task.setUserId(id);
                     task.setTitle(taskDTO.getTitle());
                     task.setDescription(taskDTO.getDescription());
                     task.setUserId(taskDTO.getUserId());
