@@ -1,5 +1,6 @@
 package com.github.vladimirpokhodnya.taskmanagementrestful.controller;
 
+import com.github.vladimirpokhodnya.taskmanagementrestful.exception.TaskNotFoundException;
 import com.github.vladimirpokhodnya.taskmanagementrestful.model.dto.TaskDTO;
 import com.github.vladimirpokhodnya.taskmanagementrestful.model.dto.TaskStatusDTO;
 import com.github.vladimirpokhodnya.taskmanagementrestful.service.TaskService;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/tasks")
@@ -32,18 +32,22 @@ public class TaskController {
     }
 
     @GetMapping("/{id}")
-    public Optional<TaskDTO> getTaskById(@PathVariable Long id) {
-        return taskService.getTaskById(id);
+    public TaskDTO getTaskById(@PathVariable Long id) {
+        return taskService.getTaskById(id)
+                .orElseThrow(() -> new TaskNotFoundException(id));
     }
 
     @PutMapping("/{id}")
-    public Optional<TaskDTO> updateTask(@PathVariable Long id, @RequestBody TaskDTO taskDTO) {
-        return taskService.updateTask(id, taskDTO);
+    public TaskDTO updateTask(@PathVariable Long id, @RequestBody TaskDTO taskDTO) {
+        return taskService.updateTask(id, taskDTO)
+                .orElseThrow(() -> new TaskNotFoundException(id));
     }
 
     @DeleteMapping("/{id}")
     public void deleteTask(@PathVariable Long id) {
-        taskService.deleteTask(id);
+        if (!taskService.deleteTask(id)) {
+            throw new TaskNotFoundException(id);
+        }
     }
 
     @GetMapping
@@ -52,7 +56,8 @@ public class TaskController {
     }
 
     @PatchMapping
-    public Optional<TaskDTO> updateTaskStatus(@RequestBody TaskStatusDTO statusDTO) {
-        return taskService.updateStatus(statusDTO.id(), statusDTO.status());
+    public TaskDTO updateTaskStatus(@RequestBody TaskStatusDTO statusDTO) {
+        return taskService.updateStatus(statusDTO.id(), statusDTO.status())
+                .orElseThrow(() -> new TaskNotFoundException(statusDTO.id()));
     }
 }

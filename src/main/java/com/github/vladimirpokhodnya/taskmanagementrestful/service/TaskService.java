@@ -42,9 +42,14 @@ public class TaskService {
                 });
     }
 
-    public void deleteTask(Long id) {
+    public boolean deleteTask(Long id) {
+        if (!taskRepository.existsById(id)) {
+            return false;
+        }
         taskRepository.deleteById(id);
+        return true;
     }
+
 
     public List<TaskDTO> getAllTasks() {
         return taskRepository.findAll().stream()

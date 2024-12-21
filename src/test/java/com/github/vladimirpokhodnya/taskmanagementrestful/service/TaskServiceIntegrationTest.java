@@ -103,10 +103,20 @@ class TaskServiceIntegrationTest extends PostgresContainer {
         task.setStatus(TaskStatus.COMPLETED);
         taskRepository.save(task);
 
-        taskService.deleteTask(task.getId());
+        boolean result = taskService.deleteTask(task.getId());
+        assertTrue(result, "Удаление задачи по ID должно вернуть true");
 
         Optional<TaskDTO> foundTaskDTO = taskService.getTaskById(task.getId());
-        assertFalse(foundTaskDTO.isPresent());
+        assertFalse(foundTaskDTO.isPresent(), "Задача должна быть удалена и не существовать в базе данных");
+    }
+
+    @Test
+    @DisplayName("Тест удаления несуществующей задачи по ID")
+    void deleteTask_shouldReturnFalseWhenTaskDoesNotExist() {
+        Long nonExistentTaskId = 99999L;
+
+        boolean result = taskService.deleteTask(nonExistentTaskId);
+        assertFalse(result, "Удаление несуществующей задачи по ID должно вернуть false");
     }
 
     @Test

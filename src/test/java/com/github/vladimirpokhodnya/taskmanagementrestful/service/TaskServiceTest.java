@@ -134,12 +134,28 @@ class TaskServiceTest {
 
     @Test
     @DisplayName("Тест удаления задачи")
-    void deleteTask_shouldCallRepositoryDelete_whenTaskExists() {
+    void deleteTask_shouldReturnTrue_whenTaskExists() {
         Long taskId = 1L;
 
-        taskService.deleteTask(taskId);
+        when(taskRepository.existsById(taskId)).thenReturn(true);
 
-        verify(taskRepository, times(1)).deleteById(taskId);
+        boolean result = taskService.deleteTask(taskId);
+
+        assertTrue(result, "Удаление существующей задачи должно вернуть true");
+        verify(taskRepository, times(1)).deleteById(taskId); // Убедитесь, что deleteById вызван
+    }
+
+    @Test
+    @DisplayName("Тест удаления задачи, когда задачи не существует")
+    void deleteTask_shouldReturnFalse_whenTaskDoesNotExist() {
+        Long taskId = 1L;
+
+        when(taskRepository.existsById(taskId)).thenReturn(false);
+
+        boolean result = taskService.deleteTask(taskId);
+
+        assertFalse(result, "Удаление несуществующей задачи должно вернуть false");
+        verify(taskRepository, times(0)).deleteById(taskId); // Убедитесь, что deleteById не вызван
     }
 
     @Test
