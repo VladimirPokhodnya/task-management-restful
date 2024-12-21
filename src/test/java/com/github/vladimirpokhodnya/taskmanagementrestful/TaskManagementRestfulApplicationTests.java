@@ -8,7 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 class TaskManagementRestfulApplicationTests {
 
     @Test
-    @DisplayName("Успешная загрузка контента")
+    @DisplayName("Контекст успешно инициализируется")
     void contextLoads() {
     }
 

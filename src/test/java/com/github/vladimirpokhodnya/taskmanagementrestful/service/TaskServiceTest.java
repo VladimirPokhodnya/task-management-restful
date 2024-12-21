@@ -7,6 +7,9 @@ import com.github.vladimirpokhodnya.taskmanagementrestful.repository.TaskReposit
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,24 +19,26 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+
+@ExtendWith(MockitoExtension.class)
 class TaskServiceTest {
 
+    @Mock
     private TaskRepository taskRepository;
+
     private TaskService taskService;
 
     @BeforeEach
     void setUp() {
-        taskRepository = mock(TaskRepository.class);
         taskService = new TaskService(taskRepository);
     }
 
     @Test
-    @DisplayName("Создание задачи")
+    @DisplayName("Тест создания задачи")
     void createTask_shouldReturnTaskDTO_whenTaskIsCreated() {
         TaskDTO taskDTO = new TaskDTO();
         taskDTO.setTitle("Test Task");
@@ -58,7 +63,7 @@ class TaskServiceTest {
     }
 
     @Test
-    @DisplayName("Поиск задачи по id")
+    @DisplayName("Тест поиска задачи по id")
     void getTaskById_shouldReturnTaskDTO_whenTaskExists() {
         Long taskId = 1L;
         Task task = new Task();
@@ -77,7 +82,7 @@ class TaskServiceTest {
     }
 
     @Test
-    @DisplayName("Не успешный поиск задачи по id")
+    @DisplayName("Тест поиска задачи по id, когда такой задачи нет")
     void getTaskById_shouldReturnEmpty_whenTaskDoesNotExist() {
         Long taskId = 1L;
 
@@ -89,7 +94,7 @@ class TaskServiceTest {
     }
 
     @Test
-    @DisplayName("Обновление задачи")
+    @DisplayName("Тест обновления задачи")
     void updateTask_shouldReturnUpdatedTaskDTO_whenTaskExists() {
         Long taskId = 1L;
         Task existingTask = new Task();
@@ -116,7 +121,7 @@ class TaskServiceTest {
     }
 
     @Test
-    @DisplayName("Не найдена задача для обновления")
+    @DisplayName("Тест обновления задачи, когда такой задачи нет")
     void updateTask_shouldReturnEmpty_whenTaskDoesNotExist() {
         Long taskId = 1L;
         TaskDTO taskDTO = new TaskDTO();
@@ -128,7 +133,7 @@ class TaskServiceTest {
     }
 
     @Test
-    @DisplayName("Удаление задачи")
+    @DisplayName("Тест удаления задачи")
     void deleteTask_shouldCallRepositoryDelete_whenTaskExists() {
         Long taskId = 1L;
 
@@ -138,7 +143,7 @@ class TaskServiceTest {
     }
 
     @Test
-    @DisplayName("Поиск всех задач")
+    @DisplayName("Тест поиска всех задач")
     void getAllTasks_shouldReturnListOfTaskDTOs() {
         Task task = new Task();
         task.setId(1L);
@@ -156,7 +161,7 @@ class TaskServiceTest {
     }
 
     @Test
-    @DisplayName("Обновление статуса задачи")
+    @DisplayName("Тест обновления статуса задачи")
     void updateStatus_shouldReturnUpdatedTaskDTO_whenTaskExists() {
         Long taskId = 1L;
         Task task = new Task();
@@ -173,7 +178,7 @@ class TaskServiceTest {
     }
 
     @Test
-    @DisplayName("Не найдена задача для обновления статуса")
+    @DisplayName("Тест обновления статуса, когда задача не найдена ")
     void updateStatus_shouldReturnEmpty_whenTaskDoesNotExist() {
         Long taskId = 1L;
 
