@@ -36,10 +36,10 @@ class TaskControllerIntegrationTest extends PostgresContainer {
     private MockMvc mockMvc;
 
     @Autowired
-    TaskRepository taskRepository;
+    private TaskRepository taskRepository;
 
     @Autowired
-    TaskService taskService;
+    private TaskService taskService;
 
     @Autowired
     private ObjectMapper objectMapper;
